@@ -1,6 +1,5 @@
-import 'package:booking_room/screen1.dart';
-import 'package:booking_room/screen2.dart';
-import 'package:booking_room/views/view_login.dart';
+import 'package:booking_room/routes.dart';
+import 'package:booking_room/views/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -15,11 +14,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      getPages: [
-        GetPage(name: '/', page: () => ViewLogin()),
-        GetPage(name: '/screen2', page: () => Screen2())
-      ],
+      getPages: routes,
       initialRoute: '/',
+      home: SplashScreen(),
       theme: ThemeData(
         brightness: Brightness.light
       ),
