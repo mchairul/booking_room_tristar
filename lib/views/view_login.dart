@@ -51,6 +51,15 @@ class ViewLogin extends StatelessWidget {
                           ),
                           child: Text('Login')
                       ),
+                    ),
+                    SizedBox(
+                      height: 30,
+                    ),
+                    TextButton(
+                        onPressed: (){
+                          Get.toNamed('/mysql');
+                        },
+                        child: Text('MySql')
                     )
                   ],
                 ),
