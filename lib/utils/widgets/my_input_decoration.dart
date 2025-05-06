@@ -11,3 +11,15 @@ InputDecoration myInputDecoration(String hint) {
     ),
   );
 }
+
+InputDecoration bookingDecoration(IconButton? suffix) {
+  return InputDecoration(
+    enabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.all(Radius.circular(5))
+    ),
+    focusedBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.all(Radius.circular(5))
+    ),
+    suffixIcon: suffix
+  );
+}

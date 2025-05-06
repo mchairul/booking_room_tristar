@@ -14,6 +14,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
+      builder: (context, child) => MediaQuery
+        (
+          data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true),
+          child: child!
+      ),
       getPages: routes,
       initialRoute: '/',
       home: SplashScreen(),

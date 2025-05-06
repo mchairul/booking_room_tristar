@@ -10,50 +10,96 @@ class ViewMysql extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Center(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text('MySQL'),
-              ElevatedButton(
-                  onPressed: () async {
-                    controllerMysql.conn.getConnection().then((connection) {
-                      String sql = 'SELECT * FROM users';
-                      var res = connection.query(sql);
-                      debugPrint(res.toString());
-                    });
-                  },
-                  child: Text('Test')
-              ),
-              Obx((){
-                return controllerMysql.bookings.length == 0 ?
-                CircularProgressIndicator() :
-                SizedBox(
-                  height: MediaQuery.of(context).size.height,
-                  child: ListView.separated(
-                    separatorBuilder: (context, index) {
-                      return Divider(
-                        height: 1,
-                        thickness: 2,
-                      );
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Center(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text('MySQL'),
+                ElevatedButton(
+                    onPressed: () {
+                      Get.offNamed('mysql-add');
                     },
-                    itemCount: controllerMysql.bookings.length,
-                    itemBuilder: (context, index) {
-                      var data = controllerMysql.bookings[index];
-                      //return Text('Ruangan ${data['roomname']}');
-                      return ListTile(
-                        trailing: Text('${data['roomname']}'),
-                        title: Text('${data['request_date']}'),
-                        subtitle: Text('${data['username']} \n'
-                            '${data['division']} \n'),
-                      );
-                    },
-                  ),
-                );
-              })
-            ],
+                    child: Text('Booking')
+                ),
+                Obx((){
+                  return controllerMysql.loading.value == false ?
+                  controllerMysql.bookings.length == 0 ?
+                  Text('No Data') :
+                  SizedBox(
+                    height: 300,
+                    child: ListView.separated(
+                      separatorBuilder: (context, index) {
+                        return Divider(
+                          height: 1,
+                          thickness: 2,
+                        );
+                      },
+                      itemCount: controllerMysql.bookings.length,
+                      itemBuilder: (context, index) {
+                        var data = controllerMysql.bookings[index];
+
+                        return ListTile(
+                          trailing: Text('${data.room}'),
+                          title: Text('${data.dateBooking}'),
+                          subtitle: Text('${data.booker} \n'
+                              '${data.division} \n'),
+                        );
+                      },
+                    ),
+                  ) :
+                  CircularProgressIndicator();
+                }),
+                Obx((){
+                  return controllerMysql.loading.value == false ?
+                  controllerMysql.bookings.length == 0 ?
+                  Text('No Data') :
+                  Container(
+                    height: 300,
+                    color: Colors.white,
+                    child: SingleChildScrollView(
+                      scrollDirection: Axis.vertical,
+                      child: SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: DataTable(
+                            columns: [
+                              DataColumn(label: Text('Ruangan')),
+                              DataColumn(label: Text('Tgl booking')),
+                              DataColumn(label: Text('Jam')),
+                              DataColumn(label: Text('Pemesan')),
+                              DataColumn(label: Text('Bagian')),
+                            ],
+                            rows: List<DataRow>.generate(controllerMysql.bookings.length,(index){
+                              return DataRow(
+                                  cells: [
+                                    DataCell(
+                                      Text('${controllerMysql.bookings[index].room}'),
+                                    ),
+                                    DataCell(
+                                      Text('${controllerMysql.bookings[index].dateBooking}'),
+                                    ),
+                                    DataCell(
+                                      Text('${controllerMysql.bookings[index].hourBooking}'),
+                                    ),
+                                    DataCell(
+                                      Text('${controllerMysql.bookings[index].booker}'),
+                                    ),
+                                    DataCell(
+                                      Text('${controllerMysql.bookings[index].division}'),
+                                    ),
+                                  ]
+                              );
+                            })
+                        ),
+                      ),
+                    ),
+                  ) :
+                  CircularProgressIndicator();
+                })
+              ],
+            ),
           ),
         ),
       ),
