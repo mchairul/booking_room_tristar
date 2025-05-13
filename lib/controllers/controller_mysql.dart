@@ -37,7 +37,7 @@ class ControllerMysql extends GetxController {
         final res = await connection.query(sql);
         for (var row in res) {
           debugPrint('Room: ${row['roomname']}');
-          String dateBook = DateFormat('dd-mm-yyy').format(row['request_date']);
+          String dateBook = DateFormat('dd-MM-yyy').format(row['request_date']);
           String hourBook = getTime(row['time_start'].toString());
           bookings.add(BookingModel(
               room: row['roomname'],
@@ -49,6 +49,7 @@ class ControllerMysql extends GetxController {
           //bookings.assignAll(res);
           loading.value = false;
         }
+        connection.close();
       });
     });
   }

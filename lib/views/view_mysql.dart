@@ -44,8 +44,25 @@ class ViewMysql extends StatelessWidget {
                         return ListTile(
                           trailing: Text('${data.room}'),
                           title: Text('${data.dateBooking}'),
-                          subtitle: Text('${data.booker} \n'
-                              '${data.division} \n'),
+                          subtitle: Column(
+                            children: [
+                              Align(
+                                alignment: Alignment.topLeft,
+                                child: Text('${data.booker}'),
+                              ),
+                              Align(
+                                alignment: Alignment.topLeft,
+                                child: Text('${data.division}'),
+                              ),
+                              ElevatedButton(
+                                onPressed: (){
+                                  //contoh
+                                  // controllerMysql.show(data.id)
+                                },
+                                child: Text('Lihat'),
+                              )
+                            ],
+                          ),
                         );
                       },
                     ),
@@ -70,6 +87,7 @@ class ViewMysql extends StatelessWidget {
                               DataColumn(label: Text('Jam')),
                               DataColumn(label: Text('Pemesan')),
                               DataColumn(label: Text('Bagian')),
+                              DataColumn(label: Text('Action')),
                             ],
                             rows: List<DataRow>.generate(controllerMysql.bookings.length,(index){
                               return DataRow(
@@ -89,6 +107,15 @@ class ViewMysql extends StatelessWidget {
                                     DataCell(
                                       Text('${controllerMysql.bookings[index].division}'),
                                     ),
+                                    DataCell(
+                                      IconButton(
+                                        onPressed: (){
+                                          //contoh
+                                          // controllerMysql.show(data.id)
+                                        },
+                                        icon:Icon(Icons.remove_red_eye_outlined),
+                                      )
+                                    )
                                   ]
                               );
                             })

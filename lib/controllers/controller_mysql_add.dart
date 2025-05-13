@@ -48,9 +48,10 @@ class ControllerMysqlAdd extends GetxController{
   TextEditingController timeEndCtrl = TextEditingController();
 
   TextEditingController categoryDescriptionCtrl = TextEditingController();
-  TextEditingController addParticipantCtrl = TextEditingController();
 
+  TextEditingController addParticipantCtrl = TextEditingController();
   TextEditingController participantsCtrl = TextEditingController();
+
   TextEditingController keteranganCtrl = TextEditingController();
 
   @override
@@ -114,12 +115,13 @@ class ControllerMysqlAdd extends GetxController{
           )
         );
       }
+      connection.close();
     });
   }
 
   Future getCategories() async {
     debugPrint('Starting getCategories()');
-    conn.getConnection().then((connection) async{
+    conn.getConnection().then((connection) async {
       String sql = 'SELECT id, name, remarks FROM categories';
       final res = await connection.query(sql);
       for (var row in res) {
@@ -131,6 +133,7 @@ class ControllerMysqlAdd extends GetxController{
             )
         );
       }
+      connection.close();
     });
   }
 
@@ -146,8 +149,10 @@ class ControllerMysqlAdd extends GetxController{
               name: row['name'],
             )
         );
-        valFacilities.assign(row['id'], false);
+        //valFacilities.assign(row['id'], false);
+        valFacilities[row['id']] = false;
       }
+      connection.close();
     });
   }
 
@@ -163,7 +168,8 @@ class ControllerMysqlAdd extends GetxController{
               name: row['name'],
             )
         );
-        valFacilitiesOther.assign(row['id'], false);
+        valFacilitiesOther[row['id']] = false;
+        connection.close();
       }
     });
   }
@@ -200,7 +206,77 @@ class ControllerMysqlAdd extends GetxController{
 
   addParticipant() {
     String name = addParticipantCtrl.text;
-    listParticipants.add(name);
-    genearateParticipants();
+
+    if (listParticipants.contains(name)) {
+      debugPrint('nama sudah ada');
+    } else {
+      listParticipants.add(name);
+      genearateParticipants();
+    }
+    addParticipantCtrl.text = '';
+  }
+
+  checkFacilities(int id, bool value) {
+    valFacilities[id] = value;
+  }
+
+  checkFacilitiesOther(int id, bool value) {
+    valFacilitiesOther[id] = value;
+  }
+
+  Future<void> saveBooking() async {
+    var dateRequested = requestDateCtrl.text;
+    var requiredDate = requiredDateCtrl.text;
+    var room = selectedRoom.value;
+    var reqTimeStart = timeStartCtrl.text;
+    var reqTimeEnd = timeEndCtrl.text;
+    var category = selectedCategory.value;
+    var participants = participantsCtrl.text;
+    participants = participants.
+              replaceAll("\n", "");
+    var description = keteranganCtrl.text;
+
+    conn.getConnection().then((connection) async {
+      String sql = "INSERT INTO bookings "
+          "(users_id,rooms_id,categories_id,"
+          "request_date,required_date,time_start,"
+          "time_end,participants,description,"
+          "created_at,updated_at) VALUES "
+          "(1, $room, $category, '$dateRequested',"
+          "'$requiredDate', '$reqTimeStart',"
+          "'$reqTimeEnd','$participants','$description',"
+          "now(), now())";
+      final res = await connection.query(sql);
+      debugPrint(res.insertId.toString());
+      var id = res.insertId;
+
+      //loop facilities
+      valFacilities.forEach((key, value) async {
+        debugPrint(key.toString());
+        debugPrint(value.toString());
+        if (value) {
+          String sqlFacility = "INSERT INTO booking_facilities "
+              "(bookings_id,facilities_id,created_at,updated_at) "
+              "VALUES ($id, $key, now(), now())";
+          await connection.query(sqlFacility);
+        }
+      });
+
+      // loop facilities other
+      valFacilitiesOther.forEach((key, value) async {
+        debugPrint(key.toString());
+        debugPrint(value.toString());
+        if (value) {
+          String sqlFacility = "INSERT INTO booking_facility_others "
+              "(bookings_id,facility_others_id,created_at,updated_at) "
+              "VALUES ($id, $key, now(), now())";
+          await connection.query(sqlFacility);
+        }
+      });
+
+      connection.close();
+
+      Get.toNamed('/mysql');
+    });
   }
 }

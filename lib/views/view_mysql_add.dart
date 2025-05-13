@@ -266,14 +266,18 @@ class ViewMysqlAdd extends StatelessWidget {
                           itemCount: controllerMysqlAdd.facilities.length,
                           itemBuilder: (BuildContext context, int index) {
                             FacilityModel data = controllerMysqlAdd.facilities[index];
-                            return CheckboxListTile(
-                                title: Text(data.name!),
-                                value: false,
-                                onChanged: (value) {
-                                  debugPrint(value.toString());
-                                  controllerMysqlAdd.valFacilities[data.id] = value;
-                                }
-                            );
+                            debugPrint('value checkbox = ${controllerMysqlAdd.valFacilities[data.id].toString()}');
+                            return Obx((){
+                              return CheckboxListTile(
+                                  title: Text(data.name!),
+                                  value: controllerMysqlAdd.valFacilities[data.id],
+                                  onChanged: (value) {
+                                    debugPrint(value.toString());
+                                    //controllerMysqlAdd.valFacilities[data.id] = value;
+                                    controllerMysqlAdd.checkFacilities(data.id!, value!);
+                                  }
+                              );
+                            });
                           },
                         ),
                       );
@@ -291,20 +295,22 @@ class ViewMysqlAdd extends StatelessWidget {
                           itemCount: controllerMysqlAdd.otherFacilities.length,
                           itemBuilder: (BuildContext context, int index) {
                             FacilityModel data = controllerMysqlAdd.otherFacilities[index];
-                            return CheckboxListTile(
-                                title: Text(data.name!),
-                                value: false,
-                                onChanged: (value) {
-                                  debugPrint(value.toString());
-                                  controllerMysqlAdd.valFacilitiesOther[data.id] = value;
-                                }
-                            );
+                            return Obx((){
+                              return CheckboxListTile(
+                                  title: Text(data.name!),
+                                  value: controllerMysqlAdd.valFacilitiesOther[data.id],
+                                  onChanged: (value) {
+                                    debugPrint(value.toString());
+                                    controllerMysqlAdd.checkFacilitiesOther(data.id!, value!);
+                                  }
+                              );
+                            });
                           },
                         ),
                       );
                     }),
                     SizedBox(height: 20,),
-                    //Sarana Lain
+                    //Keterangan
                     SizedBox(height: 20,),
                     Align(
                       alignment: Alignment.topLeft,
@@ -321,11 +327,13 @@ class ViewMysqlAdd extends StatelessWidget {
                       children: [
                         ElevatedButton(
                           onPressed: (){
+                            Get.offNamed('/mysql');
                           },
                           child: Text('Cancel'),
                         ),
                         ElevatedButton(
                           onPressed: (){
+                            controllerMysqlAdd.saveBooking();
                           },
                           child: Text('Save'),
                           style: ElevatedButton.styleFrom(
