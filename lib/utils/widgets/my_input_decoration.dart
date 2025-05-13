@@ -9,6 +9,9 @@ InputDecoration myInputDecoration(String hint) {
     focusedBorder: OutlineInputBorder(
       borderRadius: BorderRadius.all(Radius.circular(5))
     ),
+    disabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.all(Radius.circular(5))
+    ),
   );
 }
 
@@ -21,5 +24,16 @@ InputDecoration bookingDecoration(IconButton? suffix) {
         borderRadius: BorderRadius.all(Radius.circular(5))
     ),
     suffixIcon: suffix
+  );
+}
+
+InputDecoration dropdownDecoration() {
+  return InputDecoration(
+      enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.all(Radius.circular(5))
+      ),
+      focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.all(Radius.circular(5))
+      ),
   );
 }

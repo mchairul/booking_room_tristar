@@ -1,8 +1,8 @@
-class CategoriesModel {
+class FacilityModel {
   int? id;
   String? name;
 
-  CategoriesModel({
+  FacilityModel({
     this.id,
     this.name,
   });
