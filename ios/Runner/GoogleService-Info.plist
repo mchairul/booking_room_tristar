@@ -3,17 +3,17 @@
 <plist version="1.0">
 <dict>
 	<key>API_KEY</key>
-	<string>AIzaSyAjU5hV_QnI_VQiZO1JKxD_0m6X5kqJsQ4</string>
+	<string>AIzaSyA1a9kz_iFxA0ZiHPmKNf9JdlqtKZ-Q7D8</string>
 	<key>GCM_SENDER_ID</key>
-	<string>954693952578</string>
+	<string>946032335101</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
 	<string>com.example.bookingRoom</string>
 	<key>PROJECT_ID</key>
-	<string>booking-room-tristart</string>
+	<string>tristar-booking-room</string>
 	<key>STORAGE_BUCKET</key>
-	<string>booking-room-tristart.firebasestorage.app</string>
+	<string>tristar-booking-room.firebasestorage.app</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -25,6 +25,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:954693952578:ios:e823873570618211beb9db</string>
+	<string>1:946032335101:ios:cafeb3e1e6102a1f7c4694</string>
 </dict>
 </plist>
