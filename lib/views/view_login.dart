@@ -26,31 +26,88 @@ class ViewLogin extends StatelessWidget {
                   children: [
                     TextFormField(
                       controller: controllerLogin.emailController,
-                      decoration: myInputDecoration('email'),
+                      decoration: InputDecoration(
+                        hintText: 'Email',
+                        enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(5))
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(5))
+                        ),
+                        disabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(5))
+                        ),
+                        errorText: controllerLogin.isEmailEmpty.value ?
+                        'Email Tidak Boleh Kosong' : null
+                      ),
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return "Email Tidak Boleh Kosong";
+                        }
+                        return null;
+                      },
                     ),
                     SizedBox(height: 30,),
                     TextFormField(
                       controller: controllerLogin.passwordController,
-                      decoration: myInputDecoration('Password'),
+                      decoration: InputDecoration(
+                        hintText: 'Password',
+                        enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(5))
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(5))
+                        ),
+                        disabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(5))
+                        ),
+                        errorText: controllerLogin.isPasswordEmpty.value ?
+                            'Password Tidak Boleh Kosong' : null
+                      ),
                       obscureText: true,
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return "Password Tidak Boleh Kosong";
+                        }
+                        return null;
+                      },
                     ),
                     SizedBox(height: 30,),
                     SizedBox(
                       height: 50,
                       width: MediaQuery.of(context).size.width,
-                      child: ElevatedButton(
-                          onPressed: (){
-                            controllerLogin.prosesLogin(
-                                controllerLogin.emailController.text,
-                                controllerLogin.passwordController.text
-                            );
-                          },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.blue,
-                            foregroundColor: Colors.white,
+                      child: Obx((){
+                        return controllerLogin.isLoading.value ? Center(
+                          child: SizedBox(
+                            width: 50,
+                            child: CircularProgressIndicator(),
                           ),
-                          child: Text('Login')
-                      ),
+                        ) : ElevatedButton(
+                            onPressed: () {
+                              // jika form sudah tervalidasi
+                              if (controllerLogin.formKey.currentState!.validate()){
+                                controllerLogin.prosesLogin(
+                                    controllerLogin.emailController.text,
+                                    controllerLogin.passwordController.text
+                                );
+                              } else {
+                                Get.snackbar(
+                                  "Form Error",
+                                  "Harap Lengkapi Semua Input",
+                                  snackPosition: SnackPosition.BOTTOM,
+                                  backgroundColor: Colors.yellow
+                                );
+                              }
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.blue,
+                              foregroundColor: Colors.white,
+                            ),
+                            child: Text('Login')
+                        );
+                      }),
                     ),
                     SizedBox(
                       height: 30,
