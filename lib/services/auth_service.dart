@@ -23,4 +23,16 @@ class AuthService extends GetConnect {
 
     return response;
   }
+
+  Future<Response> sendFirebaseToken(String authToken, String firebaseToken) async {
+    final response = await post('${stateData.baseUrl}firebase-token',
+        {
+          'token': firebaseToken
+        },
+        headers: {
+          'Authorization': 'Bearer $authToken'
+        });
+
+    return response;
+  }
 }
