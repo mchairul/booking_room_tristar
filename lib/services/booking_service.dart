@@ -28,4 +28,51 @@ class BookingService extends GetConnect {
 
     return response;
   }
+
+  Future<Response> approveBooking(int id) async {
+    final response = await patch('${stateData.baseUrl}booking/approve/${id.toString()}',
+        {},
+    headers: {
+      'Authorization': 'Bearer ${stateData.authToken.value}',
+      'Content-Type': 'application/json',
+      'Accept': 'application/json'
+    });
+
+    return response;
+  }
+
+  Future<Response> logout() async {
+    final response = await get('${stateData.baseUrl}logout',
+        headers: {
+          'Authorization': 'Bearer ${stateData.authToken.value}',
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        });
+
+    return response;
+  }
+
+  Future<Response> facilities() async {
+    final response = await get('${stateData.baseUrl}facilities',
+        headers: {
+          'Authorization': 'Bearer ${stateData.authToken.value}',
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        }
+    );
+
+    return response;
+  }
+
+  Future<Response> rooms() async {
+    final response = await get('${stateData.baseUrl}rooms',
+        headers: {
+          'Authorization': 'Bearer ${stateData.authToken.value}',
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        }
+    );
+
+    return response;
+  }
 }

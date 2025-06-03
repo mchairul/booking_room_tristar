@@ -1,4 +1,5 @@
 import 'package:booking_room/main.dart';
+import 'package:booking_room/views/view_add_booking.dart';
 import 'package:booking_room/views/view_detail_booking.dart';
 import 'package:booking_room/views/view_home.dart';
 import 'package:booking_room/views/view_login.dart';
@@ -13,5 +14,6 @@ List<GetPage<dynamic>>? routes = [
   GetPage(name: '/', page: () => MyApp()),
   GetPage(name: '/home', page: () => ViewHome()),
   GetPage(name: '/login', page: () => ViewLogin()),
-  GetPage(name: '/detail/:id', page: () => ViewDetailBooking())
+  GetPage(name: '/detail/:id', page: () => ViewDetailBooking()),
+  GetPage(name: '/add-booking', page: () => ViewAddBooking()),
 ];

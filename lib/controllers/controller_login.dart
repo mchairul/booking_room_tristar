@@ -39,10 +39,14 @@ class ControllerLogin extends GetxController {
 
       SharedPreferences preferences = await SharedPreferences.getInstance();
       preferences.setString('auth_token', body['data']['token']);
+      // level user
+      preferences.setInt('level', body['data']['level']);
       String firebaseToken = preferences.getString('firebase_token') ?? '';
 
       // menyimpan auth token di state
       stateData.authToken.value = body['data']['token'];
+      // level user
+      stateData.level.value = body['data']['level'];
 
       await _authService.sendFirebaseToken(
           body['data']['token'], firebaseToken

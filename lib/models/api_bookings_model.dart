@@ -43,7 +43,7 @@ class Data {
   List<FacilitiesOther>? facilitiesOther;
   String? description;
   int? isApproved;
-  String? usersIdApprover;
+  int? usersIdApprover;
   String? usernameApprover;
   String? createdAt;
   String? updatedAt;
@@ -101,7 +101,7 @@ class Data {
     }
     description = json['description'];
     isApproved = json['is_approved'];
-    usersIdApprover = json['users_id_approver'];
+    usersIdApprover = json['users_id_approver'] == "" ? 0 : json['users_id_approver'];
     usernameApprover = json['username_approver'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];

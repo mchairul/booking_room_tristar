@@ -7,9 +7,7 @@ class ControllerDetailBooking extends GetxController {
   RxString idBooking = '0'.obs;
   String id = Get.parameters['id'] ?? '';
 
-  RxString roomName = ''.obs;
-  RxString categoryName = ''.obs;
-  RxString categoryRemarks = ''.obs;
+  final detailBooking = RxMap();
 
 
   RxBool isLoading = false.obs;
@@ -26,10 +24,8 @@ class ControllerDetailBooking extends GetxController {
   getDetailBooking() async {
     isLoading.value = true;
     final response = await  _bookingService.detailBooking(idBooking.value);
-    print(response);
-    roomName.value = response.body['data']['room_name'];
-    categoryName.value = response.body['data']['category_name'];
-    categoryRemarks.value = response.body['data']['category_remarks'];
+    print(response.body.toString());
 
+    detailBooking.value = response.body['data'];
   }
 }

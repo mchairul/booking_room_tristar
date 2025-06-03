@@ -26,6 +26,7 @@ class ControllerSplashScreen extends GetxController {
   init() async {
     Timer(const Duration(seconds: 2), () async {
       String authToken = _sharedPreferences.getString('auth_token') ?? '';
+      int level = _sharedPreferences.getInt('level') ?? 0;
 
       if (authToken != '') {
         //cek token
@@ -34,6 +35,7 @@ class ControllerSplashScreen extends GetxController {
         if (response.statusCode == HttpStatus.ok) {
           // menyimpan auth token ke state data
           stateData.authToken.value = authToken;
+          stateData.level.value = level;
 
           Get.offNamed('/home');
           debugPrint('berhasil cek');
