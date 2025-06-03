@@ -16,7 +16,7 @@ class AuthService extends GetConnect {
   // digunakan untuk mengecek token setiap kali memebuka aplikasi
   // # agar tidak login setiap membuka aplikasi
   Future<Response> cekToken(String authToken) async {
-    final response = await post('${stateData.baseUrl}check', {},
+    final response = await get('${stateData.baseUrl}check',
     headers: {
       'Authorization': 'Bearer $authToken'
     });

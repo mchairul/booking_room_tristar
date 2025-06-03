@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:booking_room/helpers/state_data.dart';
 import 'package:booking_room/services/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -16,6 +17,8 @@ class ControllerLogin extends GetxController {
   RxBool isPasswordEmpty = false.obs;
 
   late final AuthService _authService;
+
+  StateData stateData = Get.put(StateData());
 
   @override
   void onInit() {
@@ -37,6 +40,9 @@ class ControllerLogin extends GetxController {
       SharedPreferences preferences = await SharedPreferences.getInstance();
       preferences.setString('auth_token', body['data']['token']);
       String firebaseToken = preferences.getString('firebase_token') ?? '';
+
+      // menyimpan auth token di state
+      stateData.authToken.value = body['data']['token'];
 
       await _authService.sendFirebaseToken(
           body['data']['token'], firebaseToken
